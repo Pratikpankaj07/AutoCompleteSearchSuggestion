@@ -1,4 +1,3 @@
-// Trie Node definition
 class TrieNode {
     constructor() {
         this.children = {};
@@ -48,8 +47,9 @@ class Trie {
 window.onload = () => {
     const trie = new Trie();
     const searchInput = document.getElementById("searchInput");
-    const suggestionsDiv = document.getElementById("suggestions");
-    const clearBtn = document.getElementById("clearHistoryBtn");
+    const suggestionList = document.getElementById("suggestionList");
+    const clearHistoryBtn = document.getElementById("clearHistoryBtn");
+    const clearBtn = document.getElementById("clearBtn");
 
     const MAX_HISTORY = 5;
 
@@ -74,58 +74,48 @@ window.onload = () => {
     }
 
     function buildSuggestions(query) {
-        suggestionsDiv.innerHTML = "";
+        suggestionList.innerHTML = "";
 
         const history = JSON.parse(localStorage.getItem("searchHistory")) || [];
 
         // Show history if input is empty
         if (query === "") {
             if (history.length > 0) {
-                const label = document.createElement("div");
-                label.classList.add("history-label");
-                label.textContent = "Recent Searches";
-                suggestionsDiv.appendChild(label);
-
                 for (let item of history) {
-                    const div = document.createElement("div");
-                    div.classList.add("history-item");
-                    div.textContent = item;
-                    div.addEventListener("click", () => {
+                    const li = document.createElement("li");
+                    li.textContent = item;
+                    li.addEventListener("click", () => {
                         searchInput.value = item;
                         saveToHistory(item);
-                        suggestionsDiv.style.display = "none";
+                        suggestionList.style.display = "none";
                         searchInput.dispatchEvent(new Event('input'));
                     });
-                    suggestionsDiv.appendChild(div);
+                    suggestionList.appendChild(li);
                 }
-                suggestionsDiv.style.display = "block";
-                clearBtn.style.display = "block";
+                suggestionList.style.display = "block";
             } else {
-                suggestionsDiv.style.display = "none";
-                clearBtn.style.display = "none";
+                suggestionList.style.display = "none";
             }
             return;
         }
 
         const suggestions = trie.getWordsWithPrefix(query);
         if (suggestions.length === 0) {
-            suggestionsDiv.style.display = "none";
+            suggestionList.style.display = "none";
             return;
         }
 
         for (let suggestion of suggestions) {
-            const item = document.createElement("div");
-            item.classList.add("suggestion-item");
-            item.innerHTML = `<strong>${query}</strong>${suggestion.slice(query.length)}`;
-            item.addEventListener("click", () => {
+            const li = document.createElement("li");
+            li.innerHTML = `<strong>${query}</strong>${suggestion.slice(query.length)}`;
+            li.addEventListener("click", () => {
                 searchInput.value = suggestion;
                 saveToHistory(suggestion);
-                suggestionsDiv.style.display = "none";
+                suggestionList.style.display = "none";
             });
-            suggestionsDiv.appendChild(item);
+            suggestionList.appendChild(li);
         }
-        suggestionsDiv.style.display = "block";
-        clearBtn.style.display = "block";
+        suggestionList.style.display = "block";
     }
 
     searchInput.addEventListener("input", () => {
@@ -139,23 +129,29 @@ window.onload = () => {
         }
     });
 
-    clearBtn.addEventListener("click", () => {
+    clearHistoryBtn.addEventListener("click", () => {
         localStorage.removeItem("searchHistory");
-        suggestionsDiv.style.display = "none";
-        clearBtn.style.display = "none";
+        suggestionList.style.display = "none";
     });
-    
-    searchInput.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-        const visibleSuggestions = document.querySelectorAll(".suggestion-item");
-        if (visibleSuggestions.length > 0) {
-            e.preventDefault(); // prevent form submission if any
-            const firstSuggestion = visibleSuggestions[0].textContent;
-            searchInput.value = firstSuggestion;
-            saveToHistory(firstSuggestion);
-            suggestionsDiv.style.display = "none";
-        }
-    }
-});
 
+    clearBtn.addEventListener("click", () => {
+        searchInput.value = '';
+        searchInput.focus();
+        buildSuggestions('');
+    });
+
+    searchInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+            const visibleSuggestions = document.querySelectorAll("#suggestionList li");
+            if (visibleSuggestions.length > 0) {
+                e.preventDefault();
+                const firstSuggestion = visibleSuggestions[0].textContent;
+                searchInput.value = firstSuggestion;
+                saveToHistory(firstSuggestion);
+                suggestionList.style.display = "none";
+            } else if (searchInput.value.trim() !== "") {
+                saveToHistory(searchInput.value.trim());
+            }
+        }
+    });
 };

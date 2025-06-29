@@ -24,17 +24,20 @@ h2 {
     font-weight: bold;
 }
 
-.form-area {
-    position: relative;
-    width: 100%;
+.search-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 10px;
 }
 
 #searchInput {
-    width: 100%;
-    padding: 12px;
+    width: 250px;
+    padding: 8px;
+    font-size: 16px;
     border: 2px solid #4c9aff;
     border-radius: 6px;
-    font-size: 16px;
     outline: none;
     box-sizing: border-box;
 }
@@ -44,60 +47,60 @@ h2 {
     box-shadow: 0 0 5px #4c9aff;
 }
 
-.clear-btn {
-    margin-top: 10px;
+#clearBtn {
     padding: 8px 12px;
+    font-size: 14px;
     background-color: #ff5252;
     color: white;
     border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    width: 100%;
-    display: none;
-    font-size: 14px;
-    transition: background-color 0.3s ease;
-}
-
-.clear-btn:hover {
-    background-color: #e53935;
-}
-
-.suggestions-container {
-    border: 1px solid #ccc;
-    max-height: 220px;
-    overflow-y: auto;
-    background-color: #fff;
-    display: none;
-    position: absolute;
-    width: 100%;
-    left: 0;
-    top: calc(100% + 10px); /* Show below entire form area with spacing */
     border-radius: 4px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-    z-index: 10;
-    box-sizing: border-box;
+    cursor: pointer;
+    transition: background 0.3s;
 }
 
-.suggestion-item, .history-item {
+#clearBtn:hover {
+    background-color: #e04343;
+}
+
+#suggestionList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border: 1px solid #ccc;
+    max-height: 200px;
+    overflow-y: auto;
+    background: #fff;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+#suggestionList li {
     padding: 10px 12px;
     cursor: pointer;
     font-size: 15px;
 }
 
-.suggestion-item:hover, .history-item:hover {
+#suggestionList li:hover {
     background-color: #e7f1ff;
 }
 
-.history-label {
-    font-weight: bold;
-    padding: 8px 12px;
-    background-color: #f0f0f0;
-    border-bottom: 1px solid #ddd;
-    color: #444;
+.history-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
 }
 
-@media (max-width: 400px) {
-    .container {
-        width: 90%;
-    }
+#clearHistoryBtn {
+    padding: 6px 10px;
+    font-size: 14px;
+    background-color: #2196F3;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+#clearHistoryBtn:hover {
+    background-color: #1976D2;
 }

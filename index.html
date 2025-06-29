@@ -2,23 +2,25 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Autocomplete Search</title>
+    <title>Autocomplete Search Suggestion</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div class="container">
+        <h2>AutoComplete Search</h2>
 
-<div class="container">
-    <h2>Autocomplete Search Suggestion</h2>
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Type to search...">
+            <button id="clearBtn">Clear</button>
+        </div>
 
-    <div class="form-area">
-        <input type="text" id="searchInput" placeholder="Start typing...">
-        <button id="clearHistoryBtn" class="clear-btn">Clear History</button>
+        <ul id="suggestionList"></ul>
+
+        <div class="history-container">
+            <button id="clearHistoryBtn">Clear History</button>
+        </div>
     </div>
 
-    <div id="suggestions" class="suggestions-container"></div>
-</div>
-
-<script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
-
